@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -501,11 +500,13 @@ span {
 
 .service-box {
     background-color: var(--main-color);
-    height: 300px;
     border-radius: 3rem;
     border: 5px solid transparent;
     cursor: pointer;
     transition: 0.4s ease-in-out;
+    min-height: 350px;
+    display: flex;
+    align-items: center;
 }
 
 .service-box:hover {
@@ -518,25 +519,27 @@ span {
 .service-box .service-info {
     display: flex;
     flex-direction: column;
-    text-align: left;
-    max-height: 200px;
-    justify-content: left;
-    align-items: baseline;
-    padding: 5rem 5rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 2rem;
+    width: 100%;
 }
 
 .service-info h4 {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
     font-weight: 800;
-    line-height: 2;
+    line-height: 1.3;
+    margin-bottom: 2rem;
+    white-space: normal;
+    width: 100%;
 }
 
 .service-info p {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    max-height: 100px;
     line-height: 1.7;
-    margin: auto;
+    width: 100%;
 }
 
 .testimonials {
@@ -556,10 +559,12 @@ span {
 }
 
 .testimonials-box img {
-    width: 15rem;
+    width: 12rem;
+    height: 12rem;
     border-radius: 50%;
     border: 3px solid var(--main-color);
     box-shadow: 0 0 25px var(--main-color);
+    object-fit: cover;
 }
 
 .wrapper {
@@ -569,19 +574,18 @@ span {
 }
 
 .testimonial-item {
-    min-height: 350px;
-    max-width: 550px;
     background: rgba(0, 0, 0, 0.7);
     border-radius: 2rem;
-    margin: 0 2rem;
-    padding: 30px 60px;
+    padding: 25px 30px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 1.5rem;
     color: white;
     transition: 0.4s ease-in-out;
+    text-align: center;
 }
 
 .testimonial-item:hover{
@@ -591,11 +595,14 @@ span {
 }
 
 .testimonial-item h2 {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .testimonial-item p {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    line-height: 1.6;
 }
 
 #star {
@@ -754,6 +761,7 @@ span {
     color: white;
 }
 
+/* Медиа-запросы для мобильных устройств */
 @media(max-width:1285px){
     html{
         font-size: 55%;
@@ -833,27 +841,114 @@ span {
     }
     .home {
         flex-direction: column-reverse;
-        margin: 5rem 4rem;
+        margin: 3rem 2rem;
+        gap: 4rem;
+        text-align: center;
+        padding: 8rem 5% 5rem;
+    }
+    .home-content {
+        align-items: center;
+        text-align: center;
+        margin-top: 0;
     }
     .home-content h3 {
         font-size: 2.6rem;
+        margin-bottom: 1.5rem;
     }
     .home-content h1 {
-        font-size: 8rem;
-        margin-top: 3rem;
+        font-size: 5rem;
+        margin-top: 1rem;
     }
     .home-content p{
-        max-width: 600px;
-        margin: 0 auto;
+        max-width: 100%;
+        margin: 2rem 0;
+        text-align: center;
+        font-size: 1.6rem;
     }
     .home-img img {
-        width: 56vw;
+        width: 60vw;
+        top: 0;
+        margin-top: 1rem;
     }
     .services h2 {
         margin-bottom: 3rem;
     }
     .services-container {
         grid-template-columns: repeat(1,1fr);
+        gap: 2rem;
+    }
+    .service-box {
+        min-height: 300px;
+    }
+    .service-box .service-info {
+        padding: 2.5rem 2rem;
+    }
+    .service-info h4 {
+        font-size: 2.6rem;
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+    }
+    .service-info p {
+        font-size: 1.6rem;
+        text-align: center;
+        line-height: 1.8;
+    }
+    .testimonial-item {
+        padding: 25px 20px;
+        margin: 0 1rem;
+    }
+    .testimonial-item h2 {
+        font-size: 2.2rem;
+    }
+    .testimonial-item p {
+        font-size: 1.5rem;
+    }
+    .heading {
+        font-size: 6rem;
+        margin: 3rem 0;
+    }
+}
+
+@media(max-width:480px){
+    .home {
+        margin: 2rem 1rem;
+        gap: 3rem;
+        padding: 6rem 3% 3rem;
+    }
+    .home-content h1 {
+        font-size: 4rem;
+    }
+    .home-content h3 {
+        font-size: 2.2rem;
+    }
+    .home-img img {
+        width: 70vw;
+    }
+    .service-box {
+        min-height: 280px;
+    }
+    .service-box .service-info {
+        padding: 2rem 1.5rem;
+    }
+    .service-info h4 {
+        font-size: 2.4rem;
+    }
+    .service-info p {
+        font-size: 1.5rem;
+    }
+    .testimonial-item {
+        padding: 20px 15px;
+    }
+    .testimonial-item h2 {
+        font-size: 2rem;
+    }
+    .heading {
+        font-size: 5rem;
+    }
+    section {
+        padding: 8rem 5% 5rem;
+        min-height: auto;
     }
 }
 </style>
@@ -961,28 +1056,28 @@ span {
             <div class="service-box">
                 <div class="service-info">
                     <h4 data-key="backendDev">Backend Development</h4>
-                    <p data-key="backendDesc">Development of server-side logic, databases, and APIs for web applications using Python and modern frameworks.</p>
+                    <p data-key="backendDesc">Your project is like conducting an orchestra. I'll create the reliable and cohesive foundation—the server, database, and logic—that will allow your idea to resonate loudly, clearly, and authentically. While your users enjoy a user-friendly interface, my code will seamlessly deliver results.</p>
                 </div>
             </div>
 
             <div class="service-box">
                 <div class="service-info">
                     <h4 data-key="frontendDev">Frontend Development</h4>
-                    <p data-key="frontendDesc">Creating responsive and interactive user interfaces with modern technologies and frameworks.</p>
+                    <p data-key="frontendDesc">First impressions are everything. I'll help you make one. I'll create an interface that's not only beautiful but also easy to navigate. One that people want to stay in, one that's easy to navigate, and one that your customers will love from the first click.</p>
                 </div>
             </div>
 
             <div class="service-box">
                 <div class="service-info">
                     <h4 data-key="telegramBot">Telegram Bot</h4>
-                    <p data-key="telegramDesc">Development of intelligent Telegram bots for automation, customer service, and various business needs.</p>
+                    <p data-key="telegramDesc">Imagine a tireless employee who works 24/7, answers questions, takes orders, and never asks for a salary. That's exactly what I'll create for your business. I'll automate routine tasks so you can focus on what matters most—development.</p>
                 </div>
             </div>
 
             <div class="service-box">
                 <div class="service-info">
                     <h4 data-key="pythonDev">Python Development</h4>
-                    <p data-key="pythonDesc">Custom Python solutions, scripts, and applications tailored to specific business requirements.</p>
+                    <p data-key="pythonDesc">Do you have a unique problem for which there's no ready-made solution? No problem. I'll help you bring it to life using Python. I'll write a program or script that will become your personal digital assistant, solving your specific problems.</p>
                 </div>
             </div>
         </div>
@@ -1124,12 +1219,12 @@ const translations = {
         educationDesc3: "By 2024, I felt like creating Telegram bots had ceased to be a challenge, and the income level in this field wasn't satisfying. Realizing I lacked the systemic knowledge for more serious projects, I decided to transition to web development and began mastering the powerful Django framework.",
         educationDesc4: "Currently, I work as a Backend Developer with full-stack capabilities. I can create various websites and Telegram bots with any functionality you need, and provide beautiful designs for your site. I'm ready to bring your project to life!",
 
-        // Services section
+        // Services section - ОБНОВЛЕННЫЕ ТЕКСТЫ
         servicesTitle: "Services",
         backendDev: "Backend Development",
         backendDesc: "Your project is like conducting an orchestra. I'll create the reliable and cohesive foundation—the server, database, and logic—that will allow your idea to resonate loudly, clearly, and authentically. While your users enjoy a user-friendly interface, my code will seamlessly deliver results.",
-        frontendDev: "Frontend Development",
-        frontendDesc: "First impressions are everything. I'll help you make one. I'll create an interface that's not only beautiful but also easy to navigate. One that people want to stay in, one that's easy to navigate, and one that your customers will love from the first click.",
+        frontendDev: "Frontend Development", 
+        frontendDesc: "First impressions are everything. I'll help you make one. I'll create an interface that's not only beautiful but also easy to navigate. One that people want to stay in, in which it's easy to navigate, and one that your customers will love from the first click.",
         telegramBot: "Telegram Bot",
         telegramDesc: "Imagine a tireless employee who works 24/7, answers questions, takes orders, and never asks for a salary. That's exactly what I'll create for your business. I'll automate routine tasks so you can focus on what matters most—development.",
         pythonDev: "Python Development",
@@ -1180,6 +1275,7 @@ const translations = {
         educationDesc3: "К 2024 году я почувствовал, что создание Telegram-ботов перестало быть для меня вызовом, а уровень доходов в этой области меня не устраивал. Понимая, что мне не хватает системных знаний для более серьезных проектов, я принял решение перейти в веб-разработку и начал осваивать мощный фреймворк Django.",
         educationDesc4: "В настоящее время я работаю бэкенд-разработчиком с полным стеком компетенций. Я умею создавать различные веб-сайты и Telegram боты с любым функционалом по вашему желанию, а также могу предоставить красивейший дизайн для вашего сайта. Готов воплотить ваш проект в жизнь!",
 
+        // Services section - ОБНОВЛЕННЫЕ ТЕКСТЫ
         servicesTitle: "Услуги",
         backendDev: "Бэкенд Разработка",
         backendDesc: "Ваш проект — это как дирижировать оркестром. Я создам тот самый надежный и слаженный фундамент — сервер, базу данных и логику, — который позволит вашей идее звучать громко, четко и без фальши. Пока ваши пользователи наслаждаются удобным интерфейсом, мой код будет безотказно работать на результат.",
@@ -1412,7 +1508,7 @@ let sendEmail = (e) => {
     e.preventDefault()
 
     // init emails add email service | email template | contact-form | public key
-    emailjs.sendForm('service_47gff3g', 'template_zcw21q5', '#contact-form', 'YmpKs2U7X-ncZl5dA')
+    emailjs.sendForm('service_podist', 'template_xtilnya', '#contact-form', 'DuelW4pd3xAU2Box8')
         .then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
             showNotification('Message sent successfully! I will contact you soon.', 'success');
@@ -1450,5 +1546,3 @@ navbar.classList.toggle('active');
 </script>
 </body>
 </html>
-
-
