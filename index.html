@@ -1508,7 +1508,7 @@ let sendEmail = (e) => {
     e.preventDefault()
 
     // init emails add email service | email template | contact-form | public key
-    emailjs.sendForm('service_47gff3g', 'template_zcw21q5', '#contact-form', 'YmpKs2U7X-ncZl5dA')
+    emailjs.sendForm('service_ecc2w9i', 'New message from website', '#contact-form', 'YmpKs2U7X-ncZl5dA')
         .then(function(response) {
             console.log('SUCCESS!', response.status, response.text);
             showNotification('Message sent successfully! I will contact you soon.', 'success');
@@ -1546,6 +1546,7 @@ navbar.classList.toggle('active');
 </script>
 </body>
 </html>
+
 
 
 
