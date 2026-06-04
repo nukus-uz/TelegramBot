@@ -116,6 +116,9 @@
         let isAuthenticated = false;
         let waitingForResponse = false;
 
+        // Сохраняем оригинальный метод sendData
+        const originalSendData = tg.sendData;
+
         // === АВТОРИЗАЦИЯ ===
         function authenticate() {
             if (!userId || !secretKey) {
@@ -123,13 +126,15 @@
                 return;
             }
 
-            // Отправляем запрос на проверку ключа
             waitingForResponse = true;
-            tg.sendData(JSON.stringify({
+            const authData = JSON.stringify({
                 action: 'auth',
-                user_id: userId,
+                user_id: parseInt(userId),
                 secret_key: secretKey
-            }));
+            });
+            
+            console.log("Sending auth:", authData);
+            tg.sendData(authData);
         }
 
         function showError(title, message) {
@@ -258,12 +263,15 @@
                     });
                 }
 
-                tg.sendData(JSON.stringify({
+                const submitData = JSON.stringify({
                     action: 'submit',
-                    user_id: userId,
+                    user_id: parseInt(userId),
                     secret_key: secretKey,
                     answers: formattedAnswers
-                }));
+                });
+                
+                console.log("Sending submit:", submitData);
+                tg.sendData(submitData);
             });
         }
 
@@ -291,29 +299,33 @@
             return div.innerHTML;
         }
 
-        // Обработка входящих данных от бота
-        window.Telegram.WebApp.onEvent('mainButtonClicked', function() {});
+        // === ОБРАБОТКА ОТВЕТОВ ОТ БОТА ===
+        // Telegram WebApp отправляет ответы через onEvent
+        tg.onEvent('mainButtonClicked', function() {});
         
-        // Получение данных от бота через WebApp
-        window.handleWebAppData = function(data) {
-            waitingForResponse = false;
-            
-            if (data.success === false) {
-                if (data.error === 'access_denied') {
-                    showAccessDenied();
-                } else {
-                    showError("Xatolik!", "Server bilan bog'liq muammo yuz berdi.");
+        // Получаем данные из ответа бота
+        tg.onEvent('web_app_data_send', function(data) {
+            console.log("Received data from bot:", data);
+            try {
+                const response = JSON.parse(data.data);
+                waitingForResponse = false;
+                
+                if (response.success === false) {
+                    if (response.error === 'access_denied') {
+                        showAccessDenied();
+                    } else {
+                        showError("Xatolik!", response.error || "Server bilan bog'liq muammo yuz berdi.");
+                    }
+                } else if (response.questions) {
+                    loadQuestions(response.questions);
+                } else if (response.score !== undefined) {
+                    showResult(response);
                 }
-            } else if (data.questions) {
-                loadQuestions(data.questions);
-            } else if (data.score !== undefined) {
-                showResult(data);
+            } catch(e) {
+                console.error("Error parsing response:", e);
             }
-        };
+        });
 
-        // Перехватываем ответ от бота
-        const originalSendData = tg.sendData;
-        
         // Запускаем авторизацию
         authenticate();
     </script>
