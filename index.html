@@ -113,28 +113,26 @@
         let questions = [];
         let currentIndex = 0;
         let answers = [];
-        let isAuthenticated = false;
-        let waitingForResponse = false;
+        let authChecked = false;
 
-        // Сохраняем оригинальный метод sendData
-        const originalSendData = tg.sendData;
+        // Отправка сообщения боту
+        function sendToBot(data) {
+            console.log("Sending to bot:", data);
+            tg.sendData(JSON.stringify(data));
+        }
 
-        // === АВТОРИЗАЦИЯ ===
+        // Авторизация
         function authenticate() {
             if (!userId || !secretKey) {
                 showError("🔑 Xatolik!", "Noto'g'ri havola. Iltimos, bot orqali qaytadan urinib ko'ring.");
                 return;
             }
-
-            waitingForResponse = true;
-            const authData = JSON.stringify({
+            
+            sendToBot({
                 action: 'auth',
                 user_id: parseInt(userId),
                 secret_key: secretKey
             });
-            
-            console.log("Sending auth:", authData);
-            tg.sendData(authData);
         }
 
         function showError(title, message) {
@@ -154,7 +152,6 @@
                     <div class="error-icon">⛔</div>
                     <h3>Ruxsat yo'q!</h3>
                     <p style="color: #666; margin-top: 12px;">Sizning kodingiz noto'g'ri yoki test hali boshlanmagan.</p>
-                    <p style="color: #666; margin-top: 8px;">Iltimos, administrator bilan bog'lanib, test boshlanganligini tekshiring.</p>
                     <button class="btn" onclick="window.Telegram.WebApp.close()">Yopish</button>
                 </div>
             `;
@@ -164,7 +161,7 @@
             if (questionsData && questionsData.length > 0) {
                 questions = questionsData;
                 answers = new Array(questions.length).fill(null);
-                isAuthenticated = true;
+                authChecked = true;
                 renderQuestion();
             } else {
                 document.getElementById('content').innerHTML = `
@@ -254,7 +251,6 @@
             tg.showConfirm("Testni yakunlamoqchimisiz?", (confirmed) => {
                 if (!confirmed) return;
 
-                waitingForResponse = true;
                 const formattedAnswers = [];
                 for (let i = 0; i < questions.length; i++) {
                     formattedAnswers.push({
@@ -263,15 +259,12 @@
                     });
                 }
 
-                const submitData = JSON.stringify({
+                sendToBot({
                     action: 'submit',
                     user_id: parseInt(userId),
                     secret_key: secretKey,
                     answers: formattedAnswers
                 });
-                
-                console.log("Sending submit:", submitData);
-                tg.sendData(submitData);
             });
         }
 
@@ -299,33 +292,9 @@
             return div.innerHTML;
         }
 
-        // === ОБРАБОТКА ОТВЕТОВ ОТ БОТА ===
-        // Telegram WebApp отправляет ответы через onEvent
+        // Обработка входящих сообщений от бота
         tg.onEvent('mainButtonClicked', function() {});
         
-        // Получаем данные из ответа бота
-        tg.onEvent('web_app_data_send', function(data) {
-            console.log("Received data from bot:", data);
-            try {
-                const response = JSON.parse(data.data);
-                waitingForResponse = false;
-                
-                if (response.success === false) {
-                    if (response.error === 'access_denied') {
-                        showAccessDenied();
-                    } else {
-                        showError("Xatolik!", response.error || "Server bilan bog'liq muammo yuz berdi.");
-                    }
-                } else if (response.questions) {
-                    loadQuestions(response.questions);
-                } else if (response.score !== undefined) {
-                    showResult(response);
-                }
-            } catch(e) {
-                console.error("Error parsing response:", e);
-            }
-        });
-
         // Запускаем авторизацию
         authenticate();
     </script>
