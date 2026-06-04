@@ -114,6 +114,7 @@
         let currentIndex = 0;
         let answers = [];
         let isAuthenticated = false;
+        let waitingForResponse = false;
 
         // === АВТОРИЗАЦИЯ ===
         function authenticate() {
@@ -123,6 +124,7 @@
             }
 
             // Отправляем запрос на проверку ключа
+            waitingForResponse = true;
             tg.sendData(JSON.stringify({
                 action: 'auth',
                 user_id: userId,
@@ -188,7 +190,7 @@
                     if (opt && opt.trim()) {
                         const isSelected = answers[currentIndex] === opt;
                         optionsHtml += `
-                            <div class="option ${isSelected ? 'selected' : ''}" onclick="selectAnswer('${opt.replace(/'/g, "\\'")}')">
+                            <div class="option ${isSelected ? 'selected' : ''}" onclick="selectAnswer('${escapeHtml(opt).replace(/'/g, "\\'")}')">
                                 <div class="option-letter">${letters[idx]}</div>
                                 <div class="option-text">${escapeHtml(opt)}</div>
                             </div>
@@ -247,6 +249,7 @@
             tg.showConfirm("Testni yakunlamoqchimisiz?", (confirmed) => {
                 if (!confirmed) return;
 
+                waitingForResponse = true;
                 const formattedAnswers = [];
                 for (let i = 0; i < questions.length; i++) {
                     formattedAnswers.push({
@@ -288,6 +291,29 @@
             return div.innerHTML;
         }
 
+        // Обработка входящих данных от бота
+        window.Telegram.WebApp.onEvent('mainButtonClicked', function() {});
+        
+        // Получение данных от бота через WebApp
+        window.handleWebAppData = function(data) {
+            waitingForResponse = false;
+            
+            if (data.success === false) {
+                if (data.error === 'access_denied') {
+                    showAccessDenied();
+                } else {
+                    showError("Xatolik!", "Server bilan bog'liq muammo yuz berdi.");
+                }
+            } else if (data.questions) {
+                loadQuestions(data.questions);
+            } else if (data.score !== undefined) {
+                showResult(data);
+            }
+        };
+
+        // Перехватываем ответ от бота
+        const originalSendData = tg.sendData;
+        
         // Запускаем авторизацию
         authenticate();
     </script>
