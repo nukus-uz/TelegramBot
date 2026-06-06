@@ -113,7 +113,6 @@
         let questions = [];
         let currentIndex = 0;
         let answers = [];
-        let authChecked = false;
 
         // Отправка сообщения боту
         function sendToBot(data) {
@@ -146,22 +145,10 @@
             `;
         }
 
-        function showAccessDenied() {
-            document.getElementById('content').innerHTML = `
-                <div class="card error-card">
-                    <div class="error-icon">⛔</div>
-                    <h3>Ruxsat yo'q!</h3>
-                    <p style="color: #666; margin-top: 12px;">Sizning kodingiz noto'g'ri yoki test hali boshlanmagan.</p>
-                    <button class="btn" onclick="window.Telegram.WebApp.close()">Yopish</button>
-                </div>
-            `;
-        }
-
         function loadQuestions(questionsData) {
             if (questionsData && questionsData.length > 0) {
                 questions = questionsData;
                 answers = new Array(questions.length).fill(null);
-                authChecked = true;
                 renderQuestion();
             } else {
                 document.getElementById('content').innerHTML = `
@@ -292,9 +279,33 @@
             return div.innerHTML;
         }
 
-        // Обработка входящих сообщений от бота
-        tg.onEvent('mainButtonClicked', function() {});
+        // Обработка ответа от бота через метод setWebAppData
+        window.Telegram.WebApp.onEvent('mainButtonClicked', function() {});
         
+        // Получаем ответ от бота
+        window.Telegram.WebApp.onEvent('web_app_data_send', function(data) {
+            console.log("Received from bot:", data);
+            try {
+                const response = JSON.parse(data.data);
+                if (response.success) {
+                    if (response.questions) {
+                        loadQuestions(response.questions);
+                    } else if (response.score !== undefined) {
+                        showResult(response);
+                    }
+                } else {
+                    if (response.error === 'access_denied') {
+                        showError("⛔ Ruxsat yo'q!", "Sizning kodingiz noto'g'ri yoki test hali boshlanmagan.");
+                    } else {
+                        showError("Xatolik!", response.error || "Server bilan bog'liq muammo.");
+                    }
+                }
+            } catch(e) {
+                console.error("Error parsing response:", e);
+                showError("Xatolik!", "Ma'lumotlarni qayta ishlashda xatolik.");
+            }
+        });
+
         // Запускаем авторизацию
         authenticate();
     </script>
