@@ -71,7 +71,6 @@
       flex-wrap: wrap;
     }
 
-    /* ===== ЛОГОТИП ИЗ ФАЙЛА img.png ===== */
     .logo {
       width: 80px;
       height: 80px;
@@ -265,6 +264,7 @@
       align-items: center;
       gap: 6px;
       transition: 0.2s;
+      padding: 0.3rem 0;
     }
 
     .project-link i {
@@ -385,21 +385,268 @@
       font-size: 0.7rem;
     }
 
-    @media (max-width: 700px) {
-      .portfolio { padding: 1.8rem; }
-      .header { gap: 1rem; }
-      .logo { width: 64px; height: 64px; }
-      .header-info h1 { font-size: 2.4rem; }
-      .about { max-width: 100%; padding: 1rem 1.2rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .domain-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(108, 92, 231, 0.05);
+      padding: 0.1rem 0.7rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      color: #a8b5d9;
+      border: 1px solid rgba(108, 92, 231, 0.05);
+      margin-top: 0.3rem;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    @media (max-width: 450px) {
-      .contacts { flex-direction: column; gap: 0.3rem; }
-      .goal-box { flex-direction: column; align-items: flex-start; }
-      .header-info .subtitle { flex-direction: column; align-items: flex-start; gap: 4px; }
-      .badge { margin-left: 0; }
+    .domain-badge i {
+      color: #6c5ce7;
+      font-size: 0.6rem;
+    }
+
+    /* =========================
+       MOBILE ADAPTATION
+       ========================= */
+
+    @media (max-width: 700px) {
+      body {
+        padding: 1rem 0.75rem;
+        align-items: flex-start;
+      }
+
+      .portfolio {
+        width: 100%;
+        padding: 1.5rem 1rem;
+        border-radius: 1.5rem;
+      }
+
+      .header {
+        gap: 1rem;
+        align-items: center;
+        margin-bottom: 1.3rem;
+      }
+
+      .logo {
+        width: 60px;
+        height: 60px;
+      }
+
+      .header-info {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .header-info h1 {
+        font-size: clamp(2rem, 9vw, 2.4rem);
+        line-height: 1;
+      }
+
+      .header-info .subtitle {
+        font-size: 0.9rem;
+        gap: 6px;
+        margin-top: 6px;
+      }
+
+      .badge {
+        font-size: 0.68rem;
+        padding: 0.25rem 0.7rem;
+        margin-left: 0;
+      }
+
+      .about {
+        max-width: 100%;
+        padding: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        margin: 2rem 0 1rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+
+      .skill-item {
+        min-width: 0;
+        padding: 0.65rem 0.7rem;
+        font-size: 0.78rem;
+        gap: 7px;
+      }
+
+      .skill-item i {
+        width: 16px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+      }
+
+      .project-card {
+        padding: 1.2rem;
+        border-radius: 1.3rem;
+      }
+
+      .project-card h3 {
+        font-size: 1.15rem;
+      }
+
+      .project-card .project-tag {
+        font-size: 0.7rem;
+        line-height: 1.5;
+      }
+
+      .project-card p {
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+
+      .tech-stack {
+        gap: 0.35rem;
+      }
+
+      .tech-stack span {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.65rem;
+      }
+
+      .project-link {
+        font-size: 0.82rem;
+        padding: 0.4rem 0;
+      }
+
+      .goal-box {
+        margin: 1.5rem 0 1rem;
+        padding: 1.1rem;
+        border-radius: 1.3rem;
+        gap: 10px;
+      }
+
+      .goal-box i {
+        font-size: 1.2rem;
+      }
+
+      .goal-box p {
+        font-size: 0.85rem;
+        line-height: 1.55;
+      }
+
+      .extra-info {
+        flex-direction: column;
+        gap: 0.6rem;
+        font-size: 0.8rem;
+      }
+
+      .contacts {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+      }
+
+      .contact-link {
+        width: 100%;
+        padding: 0.55rem 0.7rem;
+        font-size: 0.82rem;
+        overflow: hidden;
+      }
+
+      .contact-link span,
+      .contact-link {
+        overflow-wrap: anywhere;
+      }
+
+      .footer-note {
+        justify-content: center;
+        text-align: center;
+        font-size: 0.65rem;
+        margin-top: 1.5rem;
+      }
+    }
+
+    /* =========================
+       SMALL PHONES (360–430px)
+       ========================= */
+
+    @media (max-width: 420px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .portfolio {
+        padding: 1.2rem 0.85rem;
+        border-radius: 1.2rem;
+      }
+
+      .header {
+        gap: 0.8rem;
+      }
+
+      .logo {
+        width: 52px;
+        height: 52px;
+      }
+
+      .header-info h1 {
+        font-size: 1.9rem;
+      }
+
+      .header-info .subtitle {
+        font-size: 0.78rem;
+        flex-wrap: wrap;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-item {
+        font-size: 0.82rem;
+        padding: 0.6rem 0.8rem;
+      }
+
+      .project-card {
+        padding: 1rem;
+      }
+
+      .project-card h3 {
+        font-size: 1.05rem;
+      }
+
+      .project-card p {
+        font-size: 0.82rem;
+      }
+
+      .tech-stack span {
+        font-size: 0.62rem;
+        padding: 0.15rem 0.6rem;
+      }
+
+      .goal-box p {
+        font-size: 0.8rem;
+      }
+
+      .contact-link {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.6rem;
+        gap: 8px;
+      }
+
+      .contact-link i {
+        font-size: 1.1rem;
+        width: 1.6rem;
+      }
     }
   </style>
 </head>
@@ -407,7 +654,6 @@
   <div class="portfolio">
 
     <div class="header">
-      <!-- ===== ЛОГОТИП ИЗ ФАЙЛА img.png ===== -->
       <div class="logo">
         <img src="img.png" alt="Айбек" />
       </div>
@@ -451,7 +697,12 @@
         <div class="tech-stack">
           <span>Python</span><span>Django</span><span>AI API</span><span>PostgreSQL</span>
         </div>
-        <a href="#" class="project-link">Live <i class="fas fa-arrow-right"></i></a>
+        <div class="domain-badge">
+          <i class="fas fa-globe"></i> edukaracademy.uz
+        </div>
+        <a href="https://edukaracademy.uz" target="_blank" class="project-link">
+          <i class="fas fa-external-link-alt"></i> Открыть сайт <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
 
       <div class="project-card">
@@ -476,7 +727,12 @@
         <div class="tech-stack">
           <span>Django</span><span>PostgreSQL</span><span>Gunicorn</span>
         </div>
-        <a href="#" class="project-link">Live <i class="fas fa-arrow-right"></i></a>
+        <div class="domain-badge">
+          <i class="fas fa-globe"></i> nukus-menu.uz
+        </div>
+        <a href="https://nukus-menu.uz" target="_blank" class="project-link">
+          <i class="fas fa-external-link-alt"></i> Открыть сайт <i class="fas fa-arrow-right"></i>
+        </a>
       </div>
     </div>
 
